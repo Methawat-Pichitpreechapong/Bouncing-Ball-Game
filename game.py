@@ -298,4 +298,5 @@ def start_game(event):
 root.bind_all("<Return>", start_game)
 root.mainloop()
 
-# Since this code is finished but it has some bug in some code, Ex. the window to write the name of player and main menu is pop up together, i'll try to fix it
+# Since this code is finished but it has some bug in some code
+# Ex. the window to write the name of player and main menu is pop up together, i'll try to fix it
