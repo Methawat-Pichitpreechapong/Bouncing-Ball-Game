@@ -26,6 +26,10 @@ current_score = 0  # Player's current score
 
 # Function to ask the player for their name
 def ask_name():
+    """
+    Display a pop-up window for the player to enter their name.
+    The game starts only after a valid name is entered.
+    """
     def save_name():
         nonlocal name_entry, error_label
         entered_name = name_entry.get().strip()
@@ -57,6 +61,9 @@ ask_name()  # Ask for the player's name at the start
 
 # Class to manage the ball in the game
 class Ball:
+    """
+    Represents the ball in the game, handles movement, collisions with bricks, obstructions, paddle, and walls.
+    """
     def __init__(self, canvas, color, paddle, bricks, speed_factor, obstructions):
         self.bricks = bricks  # List of bricks in the game
         self.canvas = canvas
@@ -76,6 +83,9 @@ class Ball:
         self.canvas_width = canvas.winfo_width()
 
     def brick_hit(self, pos):
+        """
+        Check if the ball hits any brick. If hit, remove the brick and update the score.
+        """
         global current_score
         for brick_line in self.bricks:
             for brick in brick_line:
@@ -94,6 +104,9 @@ class Ball:
         return False
 
     def obstruction_hit(self, pos):
+        """
+        Check if the ball hits an obstruction and adjust its direction based on the collision side.
+        """
         for obstruction in self.obstructions:
             obstruction_pos = self.canvas.coords(obstruction)
             if pos[2] >= obstruction_pos[0] and pos[0] <= obstruction_pos[2]:
@@ -111,6 +124,9 @@ class Ball:
         return False
 
     def paddle_hit(self, pos):
+        """
+        Check if the ball hits the paddle.
+        """
         paddle_pos = self.canvas.coords(self.paddle.id)
         if pos[2] >= paddle_pos[0] and pos[0] <= paddle_pos[2]:
             if pos[3] >= paddle_pos[1] and pos[1] <= paddle_pos[3]:
@@ -118,6 +134,9 @@ class Ball:
         return False
 
     def draw(self):
+        """
+        Handle the ball's movement and check for collisions with bricks, paddle, obstructions, and walls.
+        """
         self.canvas.move(self.id, self.x, self.y)
         pos = self.canvas.coords(self.id)
         if self.brick_hit(pos):
@@ -136,6 +155,9 @@ class Ball:
 
 # Class to manage the paddle
 class Paddle:
+    """
+    Represents the paddle in the game. Handles movement and returning to the menu.
+    """
     def __init__(self, canvas, color, width):
         self.canvas = canvas
         self.id = canvas.create_rectangle(0, 0, width, 10, fill=color)
@@ -147,6 +169,9 @@ class Paddle:
         self.canvas.bind_all("<Escape>", self.return_to_menu)  # Return to menu
 
     def draw(self):
+        """
+        Update the paddle's position based on user input.
+        """
         pos = self.canvas.coords(self.id)
         if pos[0] + self.x <= 0 or pos[2] + self.x >= self.canvas_width:  # Prevent going out of bounds
             self.x = 0
@@ -159,6 +184,9 @@ class Paddle:
         self.x = 3.5
 
     def return_to_menu(self, event):
+        """
+        Return to the main menu and reset the game state.
+        """
         global playing, current_score
         playing = False
         current_score = 0  # Reset the score
@@ -168,17 +196,27 @@ class Paddle:
 
 # Class to create bricks
 class Bricks:
+    """
+    Represents a single brick in the game.
+    """
     def __init__(self, canvas, color):
         self.canvas = canvas
         self.id = canvas.create_oval(5, 5, 25, 25, fill=color, width=2)
 
 
+# Update the score label with the player's name and score
 def update_score_label():
+    """
+    Update the score label with the current score and player's name.
+    """
     global player_name, current_score
     score.configure(text=f"{player_name}'s Score: {current_score}")
 
 
 def set_level(selected_level):
+    """
+    Set the current level of the game and display the level selection screen.
+    """
     global level
     level = selected_level
     canvas.delete("all")
@@ -186,6 +224,9 @@ def set_level(selected_level):
 
 
 def show_menu():
+    """
+    Display the main menu with level selection options.
+    """
     canvas.delete("all")
     canvas.create_text(250, 100, text="Bouncing Ball Game", fill="white", font="Consolas 28 bold")
     canvas.create_text(250, 200, text="Select Level (1-3)", fill="white", font="Consolas 24")
@@ -200,6 +241,9 @@ root.bind("3", lambda event: set_level(3))
 
 
 def start_game(event):
+    """
+    Start the game. Initialize bricks, paddle, ball, and obstructions based on the selected level.
+    """
     global playing
     if playing:
         return  # Prevent resetting the game if already playing
@@ -217,9 +261,9 @@ def start_game(event):
 
     paddle = Paddle(canvas, "blue", paddle_width)
 
-    rows = 5 if level in [1, 2] else 3
+    rows = 5 if level in [1, 2] else 3  # Dynamic rows for bricks
     bricks = []
-    for i in range(rows):  # Dynamic rows for bricks
+    for i in range(rows):
         b = []
         for j in range(19):
             random.shuffle(BRICK_COLOR)
