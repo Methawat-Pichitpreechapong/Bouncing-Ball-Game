@@ -13,13 +13,13 @@ score = Label(height=50, width=80, text="Score: 00", font="Consolas 14 bold")
 score.pack(side="left")
 root.update()
 
-player_name = "Player"
+player_name = None  # Start with no name
 playing = False
 level = 1
+current_score = 0  # Track the current score
+
 
 def ask_name():
-    global player_name
-
     def save_name():
         nonlocal name_entry, error_label
         entered_name = name_entry.get().strip()
@@ -44,14 +44,15 @@ def ask_name():
     error_label.pack()
     Button(name_window, text="Submit", command=save_name, font="Consolas 12").pack(pady=10)
 
+
 ask_name()
 
+
 class Ball:
-    def __init__(self, canvas, color, paddle, bricks, score, speed_factor, obstructions):
+    def __init__(self, canvas, color, paddle, bricks, speed_factor, obstructions):
         self.bricks = bricks
         self.canvas = canvas
         self.paddle = paddle
-        self.score = score
         self.obstructions = obstructions
         self.bottom_hit = False
         self.hit = 0
@@ -66,6 +67,7 @@ class Ball:
         self.canvas_width = canvas.winfo_width()
 
     def brick_hit(self, pos):
+        global current_score
         for brick_line in self.bricks:
             for brick in brick_line:
                 brick_pos = self.canvas.coords(brick.id)
@@ -74,7 +76,8 @@ class Ball:
                         if pos[3] >= brick_pos[1] and pos[1] <= brick_pos[3]:
                             canvas.bell()
                             self.hit += 1
-                            self.score.configure(text=f"{player_name}'s Score: {self.hit}")
+                            current_score += 1
+                            update_score_label()
                             self.canvas.delete(brick.id)
                             return True
                 except:
@@ -116,6 +119,7 @@ class Ball:
         if self.paddle_hit(pos):
             self.y = -self.y
 
+
 class Paddle:
     def __init__(self, canvas, color, width):
         self.canvas = canvas
@@ -142,23 +146,30 @@ class Paddle:
         self.x = 3.5
 
     def return_to_menu(self, event):
-        global playing
+        global playing, current_score
         playing = False
+        current_score = 0  # Reset score when returning to menu
+        update_score_label()
         show_menu()
+
 
 class Bricks:
     def __init__(self, canvas, color):
         self.canvas = canvas
         self.id = canvas.create_oval(5, 5, 25, 25, fill=color, width=2)
 
-def reset_score():
-    score.configure(text=f"{player_name}'s Score: 0")
+
+def update_score_label():
+    global player_name, current_score
+    score.configure(text=f"{player_name}'s Score: {current_score}")
+
 
 def set_level(selected_level):
     global level
     level = selected_level
     canvas.delete("all")
     canvas.create_text(250, 250, text=f"Level {level} Selected!\nPress Enter to Start", fill="green", font="Consolas 18")
+
 
 def show_menu():
     canvas.delete("all")
@@ -168,88 +179,92 @@ def show_menu():
     canvas.create_text(250, 300, text="2: Medium", fill="yellow", font="Consolas 18")
     canvas.create_text(250, 350, text="3: Hard", fill="red", font="Consolas 18")
 
+
 root.bind("1", lambda event: set_level(1))
 root.bind("2", lambda event: set_level(2))
 root.bind("3", lambda event: set_level(3))
 
+
 def start_game(event):
     global playing
-    if playing is False:
-        playing = True
-        reset_score()
-        canvas.delete("all")
+    if playing:
+        return  # Prevent resetting the game if it's already playing
 
-        BALL_COLOR = ["red", "yellow", "white"]
-        BRICK_COLOR = ["PeachPuff3", "dark slate gray", "rosy brown", "light goldenrod yellow", "turquoise3", "salmon"]
-        random.shuffle(BALL_COLOR)
+    playing = True
+    canvas.delete("all")
 
-        paddle_width = 120 if level == 1 else 100 if level == 2 else 80
-        speed_factor = 0.8 if level == 1 else 1 if level == 2 else 1.2
+    BALL_COLOR = ["red", "yellow", "white"]
+    BRICK_COLOR = ["PeachPuff3", "dark slate gray", "rosy brown", "light goldenrod yellow", "turquoise3", "salmon"]
+    random.shuffle(BALL_COLOR)
 
-        paddle = Paddle(canvas, "blue", paddle_width)
-        bricks = []
-        for i in range(0, 5):
-            b = []
-            for j in range(0, 19):
-                random.shuffle(BRICK_COLOR)
-                tmp = Bricks(canvas, BRICK_COLOR[0])
-                b.append(tmp)
-            bricks.append(b)
+    paddle_width = 120 if level == 1 else 100 if level == 2 else 80
+    speed_factor = 0.8 if level == 1 else 1 if level == 2 else 1.2
 
-        for i in range(0, 5):
-            for j in range(0, 19):
-                canvas.move(bricks[i][j].id, 25 * j, 25 * i)
+    paddle = Paddle(canvas, "blue", paddle_width)
+    bricks = []
+    for i in range(0, 5):
+        b = []
+        for j in range(0, 19):
+            random.shuffle(BRICK_COLOR)
+            tmp = Bricks(canvas, BRICK_COLOR[0])
+            b.append(tmp)
+        bricks.append(b)
 
-        obstructions = []
-        if level in [2, 3]:
-            num_obstructions = 2 if level == 2 else 4
-            obstruction_areas = []
+    for i in range(0, 5):
+        for j in range(0, 19):
+            canvas.move(bricks[i][j].id, 25 * j, 25 * i)
 
-            while len(obstructions) < num_obstructions:
-                x1 = random.randint(50, 400)
-                y1 = random.randint(220, 320)
-                x2 = x1 + random.randint(30, 60)
-                y2 = y1 + random.randint(10, 30)
+    obstructions = []
+    if level in [2, 3]:
+        num_obstructions = 2 if level == 2 else 4
+        obstruction_areas = []
 
-                new_obstruction = (x1, y1, x2, y2)
+        while len(obstructions) < num_obstructions:
+            x1 = random.randint(50, 400)
+            y1 = random.randint(220, 320)
+            x2 = x1 + random.randint(30, 60)
+            y2 = y1 + random.randint(10, 30)
 
-                overlap = any(
-                    not (new_obstruction[2] < existing[0] or
-                         new_obstruction[0] > existing[2] or
-                         new_obstruction[3] < existing[1] or
-                         new_obstruction[1] > existing[3])
-                    for existing in obstruction_areas
-                )
+            new_obstruction = (x1, y1, x2, y2)
 
-                if not overlap:
-                    obstruction = canvas.create_rectangle(*new_obstruction, fill="gray")
-                    obstructions.append(obstruction)
-                    obstruction_areas.append(new_obstruction)
+            overlap = any(
+                not (new_obstruction[2] < existing[0] or
+                     new_obstruction[0] > existing[2] or
+                     new_obstruction[3] < existing[1] or
+                     new_obstruction[1] > existing[3])
+                for existing in obstruction_areas
+            )
 
-        ball = Ball(canvas, BALL_COLOR[0], paddle, bricks, score, speed_factor, obstructions)
-        root.update_idletasks()
-        root.update()
+            if not overlap:
+                obstruction = canvas.create_rectangle(*new_obstruction, fill="gray")
+                obstructions.append(obstruction)
+                obstruction_areas.append(new_obstruction)
 
-        time.sleep(1)
-        while 1:
-            if not ball.bottom_hit:
-                ball.draw()
-                paddle.draw()
-                root.update_idletasks()
-                root.update()
-                time.sleep(0.01)
-                if ball.hit == 95:
-                    canvas.create_text(250, 250, text="YOU WON !!", fill="yellow", font="Consolas 24 ")
-                    root.update_idletasks()
-                    root.update()
-                    playing = False
-                    break
-            else:
-                canvas.create_text(250, 250, text="GAME OVER!!", fill="red", font="Consolas 24 ")
+    ball = Ball(canvas, BALL_COLOR[0], paddle, bricks, speed_factor, obstructions)
+    root.update_idletasks()
+    root.update()
+
+    time.sleep(1)
+    while True:
+        if not ball.bottom_hit:
+            ball.draw()
+            paddle.draw()
+            root.update_idletasks()
+            root.update()
+            time.sleep(0.01)
+            if ball.hit == 95:
+                canvas.create_text(250, 250, text="YOU WON !!", fill="yellow", font="Consolas 24 ")
                 root.update_idletasks()
                 root.update()
                 playing = False
                 break
+        else:
+            canvas.create_text(250, 250, text="GAME OVER!!", fill="red", font="Consolas 24 ")
+            root.update_idletasks()
+            root.update()
+            playing = False
+            break
+
 
 root.bind_all("<Return>", start_game)
 root.mainloop()
