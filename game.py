@@ -8,7 +8,8 @@ root.title("Bounce")
 root.geometry("500x570")
 root.resizable(0, 0)
 root.wm_attributes("-topmost", 1)  # Keep the game window on top
-canvas = Canvas(root, width=500, height=500, bd=0, highlightthickness=0, highlightbackground="Red", bg="Black")
+canvas = Canvas(root, width=500, height=500, bd=0,
+                highlightthickness=0, highlightbackground="Red", bg="Black")
 canvas.pack(padx=10, pady=10)
 
 # Label to display the score
@@ -43,12 +44,14 @@ def ask_name():
     name_window.transient(root)
     name_window.grab_set()
 
-    Label(name_window, text="Enter your name:", font="Consolas 14").pack(pady=10)
+    Label(name_window, text="Enter your name:",
+          font="Consolas 14").pack(pady=10)
     name_entry = Entry(name_window, font="Consolas 14")
     name_entry.pack(pady=5)
     error_label = Label(name_window, text="", font="Consolas 12")
     error_label.pack()
-    Button(name_window, text="Submit", command=save_name, font="Consolas 12").pack(pady=10)
+    Button(name_window, text="Submit", command=save_name,
+           font="Consolas 12").pack(pady=10)
 
 
 ask_name()  # Ask for the player's name at the start
@@ -64,9 +67,11 @@ class Ball:
         self.bottom_hit = False  # Whether the ball hits the bottom
         self.hit = 0  # Number of bricks hit
         self.speed_factor = speed_factor  # Speed of the ball
-        self.id = canvas.create_oval(10, 10, 25, 25, fill=color, width=1)  # Ball shape
+        self.id = canvas.create_oval(
+            10, 10, 25, 25, fill=color, width=1)  # Ball shape
         self.canvas.move(self.id, 230, 461)
-        start = [4 * speed_factor, 3.8 * speed_factor, 3.6 * speed_factor]  # Possible speeds
+        start = [4 * speed_factor, 3.8 * speed_factor,
+                 3.6 * speed_factor]  # Possible speeds
         random.shuffle(start)
         self.x = start[0]  # Horizontal movement
         self.y = -start[0]  # Vertical movement
@@ -179,17 +184,23 @@ def set_level(selected_level):
     global level
     level = selected_level
     canvas.delete("all")
-    canvas.create_text(250, 250, text=f"Level {level} Selected!\nPress Enter to Start", fill="green", font="Consolas 18")
+    canvas.create_text(250, 250, text=f"Level {
+                       level} Selected!\nPress Enter to Start", fill="green", font="Consolas 18")
 
 
 # Display the main menu
 def show_menu():
     canvas.delete("all")
-    canvas.create_text(250, 100, text="Bouncing Ball Game", fill="white", font="Consolas 28 bold")
-    canvas.create_text(250, 200, text="Select Level (1-3)", fill="white", font="Consolas 24")
-    canvas.create_text(250, 250, text="1: Easy", fill="green", font="Consolas 18")
-    canvas.create_text(250, 300, text="2: Medium", fill="yellow", font="Consolas 18")
-    canvas.create_text(250, 350, text="3: Hard", fill="red", font="Consolas 18")
+    canvas.create_text(250, 100, text="Bouncing Ball Game",
+                       fill="white", font="Consolas 28 bold")
+    canvas.create_text(250, 200, text="Select Level (1-3)",
+                       fill="white", font="Consolas 24")
+    canvas.create_text(250, 250, text="1: Easy",
+                       fill="green", font="Consolas 18")
+    canvas.create_text(250, 300, text="2: Medium",
+                       fill="yellow", font="Consolas 18")
+    canvas.create_text(250, 350, text="3: Hard",
+                       fill="red", font="Consolas 18")
 
 
 root.bind("1", lambda event: set_level(1))
@@ -207,7 +218,8 @@ def start_game(event):
     canvas.delete("all")
 
     BALL_COLOR = ["red", "yellow", "white"]
-    BRICK_COLOR = ["PeachPuff3", "dark slate gray", "rosy brown", "light goldenrod yellow", "turquoise3", "salmon"]
+    BRICK_COLOR = ["PeachPuff3", "dark slate gray", "rosy brown",
+                   "light goldenrod yellow", "turquoise3", "salmon"]
     random.shuffle(BALL_COLOR)
 
     paddle_width = 120 if level == 1 else 100 if level == 2 else 80
@@ -249,11 +261,13 @@ def start_game(event):
             )
 
             if not overlap:
-                obstruction = canvas.create_rectangle(*new_obstruction, fill="gray")
+                obstruction = canvas.create_rectangle(
+                    *new_obstruction, fill="gray")
                 obstructions.append(obstruction)
                 obstruction_areas.append(new_obstruction)
 
-    ball = Ball(canvas, BALL_COLOR[0], paddle, bricks, speed_factor, obstructions)
+    ball = Ball(canvas, BALL_COLOR[0], paddle,
+                bricks, speed_factor, obstructions)
     root.update_idletasks()
     root.update()
 
@@ -266,13 +280,15 @@ def start_game(event):
             root.update()
             time.sleep(0.01)
             if ball.hit == 95:
-                canvas.create_text(250, 250, text="YOU WON !!", fill="yellow", font="Consolas 24 ")
+                canvas.create_text(250, 250, text="YOU WON !!",
+                                   fill="yellow", font="Consolas 24 ")
                 root.update_idletasks()
                 root.update()
                 playing = False
                 break
         else:
-            canvas.create_text(250, 250, text="GAME OVER!!", fill="red", font="Consolas 24 ")
+            canvas.create_text(250, 250, text="GAME OVER!!",
+                               fill="red", font="Consolas 24 ")
             root.update_idletasks()
             root.update()
             playing = False
