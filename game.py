@@ -21,9 +21,10 @@ def ask_name():
     global player_name
 
     def save_name():
-        nonlocal name_window, name_entry
+        nonlocal name_entry, error_label
         entered_name = name_entry.get().strip()
         if entered_name:
+            global player_name
             player_name = entered_name
             name_window.destroy()
             show_menu()
