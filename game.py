@@ -232,8 +232,8 @@ def start_game(event):
         while len(obstructions) < num_obstructions:
             x1 = random.randint(50, 400)
             y1 = random.randint(100, 180)
-            x2 = x1 + random.randint(30, 60)
-            y2 = y1 + random.randint(10, 30)
+            x2 = x1 + paddle_width  # Obstruction width matches paddle
+            y2 = y1 + 20  # Fixed height for obstructions
 
             new_obstruction = (x1, y1, x2, y2)
 
