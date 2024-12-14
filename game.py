@@ -144,7 +144,6 @@ class Paddle:
     def return_to_menu(self, event):
         global playing
         playing = False
-        reset_score()
         show_menu()
 
 class Bricks:
