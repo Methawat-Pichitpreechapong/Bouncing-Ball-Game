@@ -2,35 +2,41 @@ from tkinter import *
 import time
 import random
 
+# Initialize the main game window
 root = Tk()
 root.title("Bounce")
 root.geometry("500x570")
 root.resizable(0, 0)
-root.wm_attributes("-topmost", 1)
+root.wm_attributes("-topmost", 1)  # Keep the game window on top
 canvas = Canvas(root, width=500, height=500, bd=0, highlightthickness=0, highlightbackground="Red", bg="Black")
 canvas.pack(padx=10, pady=10)
+
+# Label to display the score
 score = Label(height=50, width=80, text="Score: 00", font="Consolas 14 bold")
 score.pack(side="left")
 root.update()
 
-player_name = None  # Start with no name
-playing = False
-level = 1
-current_score = 0  # Track the current score
+# Global variables to manage the game state
+player_name = None  # Name of the player
+playing = False  # Whether the game is currently active
+level = 1  # Current level
+current_score = 0  # Player's current score
 
 
+# Function to ask the player for their name
 def ask_name():
     def save_name():
         nonlocal name_entry, error_label
         entered_name = name_entry.get().strip()
-        if entered_name:
+        if entered_name:  # Check if the name is not empty
             global player_name
             player_name = entered_name
             name_window.destroy()
-            show_menu()
+            show_menu()  # Show the main menu after the name is entered
         else:
             error_label.config(text="Name cannot be empty!", fg="red")
 
+    # Create a popup window to input the player's name
     name_window = Toplevel(root)
     name_window.title("Enter Name")
     name_window.geometry("300x150")
@@ -45,27 +51,29 @@ def ask_name():
     Button(name_window, text="Submit", command=save_name, font="Consolas 12").pack(pady=10)
 
 
-ask_name()
+ask_name()  # Ask for the player's name at the start
 
 
+# Class to manage the ball in the game
 class Ball:
     def __init__(self, canvas, color, paddle, bricks, speed_factor, obstructions):
-        self.bricks = bricks
+        self.bricks = bricks  # List of bricks in the game
         self.canvas = canvas
-        self.paddle = paddle
-        self.obstructions = obstructions
-        self.bottom_hit = False
-        self.hit = 0
-        self.speed_factor = speed_factor
-        self.id = canvas.create_oval(10, 10, 25, 25, fill=color, width=1)
+        self.paddle = paddle  # Paddle to hit the ball
+        self.obstructions = obstructions  # Obstructions on the field
+        self.bottom_hit = False  # Whether the ball hits the bottom
+        self.hit = 0  # Number of bricks hit
+        self.speed_factor = speed_factor  # Speed of the ball
+        self.id = canvas.create_oval(10, 10, 25, 25, fill=color, width=1)  # Ball shape
         self.canvas.move(self.id, 230, 461)
-        start = [4 * speed_factor, 3.8 * speed_factor, 3.6 * speed_factor]
+        start = [4 * speed_factor, 3.8 * speed_factor, 3.6 * speed_factor]  # Possible speeds
         random.shuffle(start)
-        self.x = start[0]
-        self.y = -start[0]
+        self.x = start[0]  # Horizontal movement
+        self.y = -start[0]  # Vertical movement
         self.canvas_height = canvas.winfo_height()
         self.canvas_width = canvas.winfo_width()
 
+    # Detect if the ball hits a brick
     def brick_hit(self, pos):
         global current_score
         for brick_line in self.bricks:
@@ -77,13 +85,14 @@ class Ball:
                             canvas.bell()
                             self.hit += 1
                             current_score += 1
-                            update_score_label()
-                            self.canvas.delete(brick.id)
+                            update_score_label()  # Update the score
+                            self.canvas.delete(brick.id)  # Remove the brick
                             return True
                 except:
                     continue
         return False
 
+    # Detect if the ball hits an obstruction
     def obstruction_hit(self, pos):
         for obstruction in self.obstructions:
             obstruction_pos = self.canvas.coords(obstruction)
@@ -94,6 +103,7 @@ class Ball:
                     return True
         return False
 
+    # Detect if the ball hits the paddle
     def paddle_hit(self, pos):
         paddle_pos = self.canvas.coords(self.paddle.id)
         if pos[2] >= paddle_pos[0] and pos[0] <= paddle_pos[2]:
@@ -101,6 +111,7 @@ class Ball:
                 return True
         return False
 
+    # Move and check collisions for the ball
     def draw(self):
         self.canvas.move(self.id, self.x, self.y)
         pos = self.canvas.coords(self.id)
@@ -108,34 +119,31 @@ class Ball:
             self.y = -self.y
         if self.obstruction_hit(pos):
             return
-        if pos[1] <= 0:
+        if pos[1] <= 0:  # Hit the top
             self.y = -self.y
-        if pos[3] >= self.canvas_height:
+        if pos[3] >= self.canvas_height:  # Hit the bottom
             self.bottom_hit = True
-        if pos[0] <= 0:
+        if pos[0] <= 0 or pos[2] >= self.canvas_width:  # Hit left/right walls
             self.x = -self.x
-        if pos[2] >= self.canvas_width:
-            self.x = -self.x
-        if self.paddle_hit(pos):
+        if self.paddle_hit(pos):  # Hit the paddle
             self.y = -self.y
 
 
+# Class to manage the paddle
 class Paddle:
     def __init__(self, canvas, color, width):
         self.canvas = canvas
         self.id = canvas.create_rectangle(0, 0, width, 10, fill=color)
         self.canvas.move(self.id, 200, 485)
-        self.x = 0
+        self.x = 0  # Horizontal movement
         self.canvas_width = canvas.winfo_width()
-        self.canvas.bind_all("<Left>", self.turn_left)
-        self.canvas.bind_all("<Right>", self.turn_right)
-        self.canvas.bind_all("<Escape>", self.return_to_menu)
+        self.canvas.bind_all("<Left>", self.turn_left)  # Move left
+        self.canvas.bind_all("<Right>", self.turn_right)  # Move right
+        self.canvas.bind_all("<Escape>", self.return_to_menu)  # Return to menu
 
     def draw(self):
         pos = self.canvas.coords(self.id)
-        if pos[0] + self.x <= 0:
-            self.x = 0
-        if pos[2] + self.x >= self.canvas_width:
+        if pos[0] + self.x <= 0 or pos[2] + self.x >= self.canvas_width:  # Prevent going out of bounds
             self.x = 0
         self.canvas.move(self.id, self.x, 0)
 
@@ -148,22 +156,25 @@ class Paddle:
     def return_to_menu(self, event):
         global playing, current_score
         playing = False
-        current_score = 0  # Reset score when returning to menu
+        current_score = 0  # Reset the score
         update_score_label()
         show_menu()
 
 
+# Class to create bricks
 class Bricks:
     def __init__(self, canvas, color):
         self.canvas = canvas
         self.id = canvas.create_oval(5, 5, 25, 25, fill=color, width=2)
 
 
+# Update the score label with the player's name
 def update_score_label():
     global player_name, current_score
     score.configure(text=f"{player_name}'s Score: {current_score}")
 
 
+# Set the selected level
 def set_level(selected_level):
     global level
     level = selected_level
@@ -171,6 +182,7 @@ def set_level(selected_level):
     canvas.create_text(250, 250, text=f"Level {level} Selected!\nPress Enter to Start", fill="green", font="Consolas 18")
 
 
+# Display the main menu
 def show_menu():
     canvas.delete("all")
     canvas.create_text(250, 100, text="Bouncing Ball Game", fill="white", font="Consolas 28 bold")
@@ -185,10 +197,11 @@ root.bind("2", lambda event: set_level(2))
 root.bind("3", lambda event: set_level(3))
 
 
+# Start the game
 def start_game(event):
     global playing
     if playing:
-        return  # Prevent resetting the game if it's already playing
+        return  # Prevent resetting the game if already playing
 
     playing = True
     canvas.delete("all")
