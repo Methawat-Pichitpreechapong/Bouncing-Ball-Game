@@ -194,9 +194,10 @@ root.bind("3", lambda event: set_level(3))
 
 
 def start_game(event):
-    global playing
+    global playing, current_score
     if playing:
-        return
+        current_score = 0  # Reset the score if playing on the same level
+        update_score_label()
 
     playing = True
     canvas.delete("all")
