@@ -195,9 +195,8 @@ root.bind("3", lambda event: set_level(3))
 
 def start_game(event):
     global playing, current_score
-    if playing:
-        current_score = 0  # Reset the score if playing on the same level
-        update_score_label()
+    current_score = 0  # Reset the score for every restart
+    update_score_label()
 
     playing = True
     canvas.delete("all")
@@ -211,7 +210,7 @@ def start_game(event):
 
     paddle = Paddle(canvas, "blue", paddle_width)
     bricks = []
-    rows = 5 if level == 1 else 4 if level == 2 else 3  # Adjust rows for level 2
+    rows = 5 if level == 1 else 4 if level == 2 else 3
 
     for i in range(rows):
         b = []
