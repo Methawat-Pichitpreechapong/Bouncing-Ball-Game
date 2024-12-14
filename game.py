@@ -210,7 +210,7 @@ def start_game(event):
 
     paddle = Paddle(canvas, "blue", paddle_width)
     bricks = []
-    rows = 5 if level != 3 else 3
+    rows = 5 if level == 1 else 4 if level == 2 else 3  # Adjust rows for level 2
 
     for i in range(rows):
         b = []
