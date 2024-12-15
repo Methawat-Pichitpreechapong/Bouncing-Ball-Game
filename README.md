@@ -1,5 +1,5 @@
 # Bouncing_Ball_Game
-This game is "Bounce Master". It's a dynamic arcade-style game where players control a paddle to bounce a ball, break bricks, and navigate challenging levels featuring obstructions, all while competing for high scores.
+This game is **"Bounce Master"**. It's a dynamic arcade-style game where players control a paddle to bounce a ball, break bricks, and navigate challenging levels featuring obstructions, all while competing for high scores.
 
 **Description**
 "Bounce Master" is an interactive arcade-style game that challenges players to control a paddle, bounce a ball, and strategically break bricks across multiple levels. The game introduces dynamic obstacles and varying difficulty, making it a fun and skill-testing experience. It combines elements of physics-based simulation for realistic ball dynamics and obstruction interactions, with engaging visuals and mechanics to deliver a classic yet modern gaming experience.
@@ -29,3 +29,4 @@ This game is "Bounce Master". It's a dynamic arcade-style game where players con
 
 8. **Simple Controls:**  
    - Intuitive controls (arrow keys for paddle movement, Escape to return to menu) ensure accessibility for players of all skill levels.
+
