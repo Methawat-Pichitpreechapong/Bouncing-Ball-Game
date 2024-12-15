@@ -48,3 +48,5 @@ This game is **"Bounce Master"**. It's a dynamic arcade-style game where players
      python bounce_master.py
      ```
    - The game window will appear, and you can start playing by entering your name and selecting a difficulty level.
+
+**Usage**
