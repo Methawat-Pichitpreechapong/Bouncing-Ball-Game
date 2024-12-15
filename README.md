@@ -30,3 +30,21 @@ This game is **"Bounce Master"**. It's a dynamic arcade-style game where players
 8. **Simple Controls:**  
    - Intuitive controls (arrow keys for paddle movement, Escape to return to menu) ensure accessibility for players of all skill levels.
 
+**Installation and Running Guide for "Bounce Master"**
+
+1. **Prerequisites:**
+   - Ensure you have Python installed on your system (version 3.7 or later is recommended).
+   - Install the `tkinter` library if it's not pre-installed (usually included with Python).
+
+2. **Installation Steps:**
+   - **Option 1:** Download the source code file (`bounce_master.py`) from the provided repository or location.
+   - **Option 2:** Copy and paste the source code into a new Python file using any text editor (e.g., VS Code, PyCharm, or IDLE). Save the file as `bounce_master.py`.
+
+3. **Running the Project:**
+   - Open a terminal or command prompt.
+   - Navigate to the directory where the `bounce_master.py` file is saved.
+   - Run the script using the following command:
+     ```
+     python bounce_master.py
+     ```
+   - The game window will appear, and you can start playing by entering your name and selecting a difficulty level.
