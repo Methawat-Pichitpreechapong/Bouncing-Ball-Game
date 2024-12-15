@@ -6,28 +6,28 @@ This game is **"Bounce Master"**. It's a dynamic arcade-style game where players
 
 **Feature**
 
-1. **Multiple Difficulty Levels:**  
+1. **Multiple Difficulty Levels:**
    - Three levels of difficulty (Easy, Medium, Hard), each offering unique challenges such as varying paddle sizes, ball speeds, and brick arrangements.
 
-2. **Dynamic Obstacles:**  
+2. **Dynamic Obstacles:**
    - Levels 2 and 3 introduce obstructions that the ball interacts with, adding an extra layer of complexity and requiring strategic gameplay.
 
-3. **Customizable Experience:**  
+3. **Customizable Experience:**
    - Players can enter their name at the start, which is displayed alongside their current score, adding a personalized touch to the game.
 
-4. **Realistic Ball Physics:**  
+4. **Realistic Ball Physics:**
    - The game uses physics-based mechanics for the ball’s interactions with bricks, the paddle, walls, and obstructions, ensuring an engaging and authentic experience.
 
-5. **Score Tracking and Reset:**  
+5. **Score Tracking and Reset:**
    - The game keeps track of the player’s score, which resets when restarting the game in the same level or returning to the menu.
 
-6. **Visual Feedback:**  
+6. **Visual Feedback:**
    - A vibrant design with dynamic color schemes for bricks, ball, and obstructions, making the game visually appealing.
 
-7. **Game Over and Victory Messages:**  
+7. **Game Over and Victory Messages:**
    - Players receive a clear indication of success or failure with customized "YOU WON" or "GAME OVER" messages.
 
-8. **Simple Controls:**  
+8. **Simple Controls:**
    - Intuitive controls (arrow keys for paddle movement, Escape to return to menu) ensure accessibility for players of all skill levels.
 
 **Installation and Running Guide for "Bounce Master"**
