@@ -181,7 +181,7 @@ def set_level(selected_level):
 
 def show_menu():
     canvas.delete("all")
-    canvas.create_text(250, 100, text="Bouncing Ball Game", fill="white", font="Consolas 28 bold")
+    canvas.create_text(250, 100, text="Bounce Master", fill="white", font="Consolas 28 bold")
     canvas.create_text(250, 200, text="Select Level (1-3)", fill="white", font="Consolas 24")
     canvas.create_text(250, 250, text="1: Easy", fill="green", font="Consolas 18")
     canvas.create_text(250, 300, text="2: Medium", fill="yellow", font="Consolas 18")
