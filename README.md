@@ -63,7 +63,9 @@ This game is **"Bounce Master"**. It's a dynamic arcade-style game where players
 
 **UML**
 
-![alt text](image-1.png)
+![image](https://github.com/user-attachments/assets/5120e7c9-8039-4bd7-81e7-1d5aa4392208)
+
+
 
 
 **Purpose of each class**
