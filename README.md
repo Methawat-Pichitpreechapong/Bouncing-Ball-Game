@@ -63,7 +63,7 @@ This game is **"Bounce Master"**. It's a dynamic arcade-style game where players
 
 **UML**
 
-![alt text](image-1.png)
+![](![alt%20text](image.png).png)
 
 
 **Purpose of each class**
