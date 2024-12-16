@@ -52,12 +52,13 @@ This game is **"Bounce Master"**. It's a dynamic arcade-style game where players
      ```
      python bounce_master.py
      ```
+     or you can press "Run" on the right top of the IDE.
    - The game window will appear, and you can start playing by entering your name and selecting a difficulty level.
 
 
 **Usage**
    - This is the link i provided for you 
-    "video link"
+     [Link](https://youtu.be/iBuUgoJDMdM?si=EjKNSjlS4Ls5oQI2)
 
 
 **UML**
@@ -83,3 +84,5 @@ and Yes, although i want to use Aj.Paruj's code to create the game, but it won't
   3. The ball when hit the paddle, it will not bounce up.
 
 
+**My project sophistication level**
+- I will rate my game **90** because in my opinion, my game has the collision, multiple ball objects. But it has some bugs that i have to fix it. And since i don't have much time to make this project looks perfect, i have done the detail that i can do as much as possible.
