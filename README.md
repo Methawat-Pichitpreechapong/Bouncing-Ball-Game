@@ -1,4 +1,4 @@
-# Bouncing_Ball_Game
+# Bounce Master
 This game is **"Bounce Master"**. It's a dynamic arcade-style game where players control a paddle to bounce a ball, break bricks, and navigate challenging levels featuring obstructions, all while competing for high scores.
 
 **Description**
@@ -57,13 +57,15 @@ This game is **"Bounce Master"**. It's a dynamic arcade-style game where players
 
 ![alt text](image.png)
 
+
 **Purpose of each class**
    - `Ball` class : Represents the ball in the game. It handles the movement of the ball and interactions (collisions) with other game objects like the paddle, bricks, walls, and obstructions.
    - `Paddle` class : Represents the player's paddle. It moves horizontally and is controlled by keyboard input.
    - `Bricks` class : Represents individual bricks that the ball can hit and destroy. Each brick is drawn on the canvas and removed upon collision with the ball.
    - `Game` class : the central controller of the game. It manages the state of the game, initializes objects like the ball, paddle, bricks, and obstructions, and handles user input and scoring.
 
-
-
+**use/extend/modify the baseline code**
+Since i can't modify Aj.paruj's code to create this game, I have to write a new code using "tkinder".
+And Yes, although i want to use aj.Paruj's code to create the game, but it won't work if i use aj.Paruj's code.
 
 
