@@ -49,5 +49,6 @@ This game is **"Bounce Master"**. It's a dynamic arcade-style game where players
      ```
    - The game window will appear, and you can start playing by entering your name and selecting a difficulty level.
 
-**Usage**
- -
+**How to play**
+ -video link
+
