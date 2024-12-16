@@ -49,9 +49,22 @@ This game is **"Bounce Master"**. It's a dynamic arcade-style game where players
      ```
    - The game window will appear, and you can start playing by entering your name and selecting a difficulty level.
 
-**How to play**
-   - "video link"
+**Usage**
+   - This is the link i provided for you 
+    "video link"
 
-**Project Design**
+**Purpose of each class**
+   - `Ball` class : Represents the ball in the game. It handles the movement of the ball and interactions (collisions) with other game objects like the paddle, bricks, walls, and obstructions.
+   - `Paddle` class : Represents the player's paddle. It moves horizontally and is controlled by keyboard input.
+   - `Bricks` class : Represents individual bricks that the ball can hit and destroy. Each brick is drawn on the canvas and removed upon collision with the ball.
+   - `Game` class : the central controller of the game. It manages the state of the game, initializes objects like the ball, paddle, bricks, and obstructions, and handles user input and scoring.
+
+
+
+
+
+
+
+
 
 
